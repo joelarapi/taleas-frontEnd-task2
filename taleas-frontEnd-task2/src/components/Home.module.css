@@ -1,0 +1,32 @@
+.header{
+  font-size: 40px;
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+table{
+  background-color: #343a40;;
+  color: white;
+  width: 100%;
+}
+
+table td{
+  padding: 12px;
+}
+
+table tbody{
+  background-color: white;
+  color: black;
+}
+
+table tr{
+  height: 40px;
+  border-color: inherit;
+  vertical-align: inherit;
+}
+
+
+table td a{
+  text-decoration: none;
+  margin: 0px 8px;
+}

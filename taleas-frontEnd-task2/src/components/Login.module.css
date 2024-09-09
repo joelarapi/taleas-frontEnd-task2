@@ -1,0 +1,38 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container input{
+  width: 500px;
+  height: 40px;
+  margin: 20px;
+  border-radius: 8px;
+  padding-left: 20px;
+}
+
+.container h1{
+  color: #1f4d8f;
+  font-size: 44px;
+}
+
+.container a{
+ text-decoration: none;
+ color: blue;
+}
+
+.container input::placeholder{
+  font-size: 16px;
+  font-family: 'Roboto';
+}
+
+.container button{
+  background-color: rgb(0, 157, 255);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  width: 250px;
+  font-size: 20px;
+}

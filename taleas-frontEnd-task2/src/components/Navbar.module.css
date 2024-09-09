@@ -1,0 +1,52 @@
+.container{
+  width: 100%;
+  background-color: rgb(0, 157, 255);
+  height: 62px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+}
+.container a {
+  text-decoration: none;
+  color: white;
+}
+
+.container ul{
+  list-style: none;
+  display: flex;
+}
+
+.container li{
+  margin-left: 15px;
+}
+
+.navOptions{
+  display: flex;
+  align-items: center;
+}
+
+.loginBttn{
+  border: 2px solid white;
+  padding: 6px 20px;
+  border-radius: 4px;
+  font-size: 20px;
+  color: white;
+  background-color: rgb(0, 157, 255);
+}
+
+.loginBttn:hover{
+  -webkit-box-shadow: 5px 1px 23px 0px rgba(0,0,0,0.29);
+  -moz-box-shadow: 5px 1px 23px 0px rgba(0,0,0,0.29);
+  box-shadow: 5px 1px 23px 0px rgba(0,0,0,0.29);
+  background-color: white;
+  color:rgb(0, 157, 255) ;
+  transition: 0.2s;
+}
+
+.loginBttn:active{
+  opacity: 0.5;
+  transition: 0.1s;
+}
+
