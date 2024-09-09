@@ -1,50 +1,74 @@
-import classes from "./Home.module.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React from 'react';
 
 const Home = () => {
-  const [publicFigures, setPublicFigures] = useState([]);
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/publicFigures")
-    .then((response) => {
-      setPublicFigures(response.data);
-    }).catch((error) =>{
-      console.log("Error fetching public figures", error)
-    })
-  }, []);
   return (
-    <>
-      <h1 className={classes.header}>Home</h1>
+    <div>
+      {/* Hero Section */}
+      <header>
+        <h1>Welcome to Your Library</h1>
+        <p>Discover books recommended by influential public figures and explore their insights.</p>
+      </header>
 
-      <table>
-          <thead >
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Person</th>
-              <th scope="col">Intro</th>
-              <th scope="col">Industries</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {publicFigures.map((publicFigure, index) => (
-              <tr  key={publicFigure._id}>
-                <th scope="row">{index + 1}</th>
-                <td>{publicFigure.name}</td>
-                <td>{publicFigure.description}</td>
-                <td>{publicFigure.industries.join(', ')}</td>
-                <td>
-                <Link to={`/publicFigure/${publicFigure._id}`}>View</Link>
-                <Link to={`/publicFigure/edit/${publicFigure._id}`}>Edit</Link>
-                <Link to={`/publicFigure/delete/${publicFigure._id}`}>Delete</Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-    </>
+      {/* Featured Public Figures */}
+      <section>
+        <h2>Featured Public Figures</h2>
+        {/* Replace with actual data */}
+        <div className="public-figures">
+          <div className="figure-card">
+            <img src="path/to/image.jpg" alt="Public Figure" />
+            <h3>Public Figure Name</h3>
+            <p>Brief description about the public figure.</p>
+            <button>View All Public Figures</button>
+          </div>
+          {/* Add more figures as needed */}
+        </div>
+      </section>
+
+      {/* Top Book Suggestions */}
+      <section>
+        <h2>Top Book Suggestions</h2>
+        {/* Replace with actual data */}
+        <div className="book-suggestions">
+          <div className="book-card">
+            <img src="path/to/book-cover.jpg" alt="Book Title" />
+            <h3>Book Title</h3>
+            <p>Short description of the book.</p>
+          </div>
+          {/* Add more book suggestions as needed */}
+        </div>
+      </section>
+
+      {/* Search Bar */}
+      <section>
+        <h2>Search for Books or Public Figures</h2>
+        <input type="text" placeholder="Search..." />
+        <button>Search</button>
+      </section>
+
+      {/* Recent Reviews or Comments */}
+      <section>
+        <h2>Recent Reviews</h2>
+        {/* Replace with actual data */}
+        <div className="review-card">
+          <p>"Great book! Highly recommend."</p>
+          <p>- User Name</p>
+        </div>
+        {/* Add more reviews as needed */}
+      </section>
+
+      {/* Call to Action */}
+      <section>
+        <h2>Join Us</h2>
+        <p>Register to start discovering and sharing book recommendations.</p>
+        <button>Register</button>
+      </section>
+
+      {/* Footer */}
+      <footer>
+        <p>Contact us at info@yourlibrary.com</p>
+        <p>Follow us on social media: [Social Media Links]</p>
+      </footer>
+    </div>
   );
 };
 

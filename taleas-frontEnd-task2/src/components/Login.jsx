@@ -18,8 +18,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/login",
-        { email: email, password }, 
-  
+        { email, password },
         {
           headers: {
             "Content-Type": "application/json",
@@ -30,33 +29,34 @@ const Login = () => {
   
 
       const userData = response?.data?.user;
-      if (userData) {
-        localStorage.setItem("userData", JSON.stringify(userData));
   
+      if (userData) {
+        localStorage.setItem("accessToken", response?.data?.accessToken);
+        localStorage.setItem("isAdmin", userData.isAdmin); 
+
         setEmail("");
         setPassword("");
-  
-        if (userData.isAdmin) {
-          navigate("/dashboard");
-        } else {
-          navigate("/dashboard");
-        }
+        navigate('/');
       } else {
         setErrMsg("Login Failed");
       }
     } catch (err) {
       console.error("Login Error:", err);
-      console.error(err.response);
+      setErrMsg("Login Error: " + (err.response?.data?.message || "An unexpected error occurred"));
     }
   };
+  
+
 
   return (
     <form onSubmit={handleSubmit} className={classes.container}>  
     <h1>Log In</h1>
 
-    <p>Dont have an account ? <Link>Register Here</Link></p>
-    <input type="email" placeholder="Email"/>
-    <input type="password" placeholder="Password"/>
+    <p>Dont have an account ? <Link to='/register'>Register Here</Link></p>
+    <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
+    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
+
+    <p>Forgot password ? <a>Click here</a></p>
     <button> Log in </button>
     </form>
   )
