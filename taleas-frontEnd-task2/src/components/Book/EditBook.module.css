@@ -1,0 +1,107 @@
+/* .container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.container div{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.container input{
+  width: 550px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+
+
+
+
+.container button{
+  border: 3px solid rgb(0, 157, 255);
+  color: white;
+  background-color: rgb(0, 157, 255);
+  font-size: 20px;
+  width: 200px;
+  border-radius: 8px;
+  height: 50px;
+}
+
+.container button:hover{
+  opacity: 0.8;
+  transition: 0.2s;
+} */
+
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  margin-top: 70px;
+  width: 80%;
+}
+
+.bookContainer{
+  display: flex;
+  margin: auto;
+  align-items: top;
+width: 100%;
+}
+
+.bookContainer img{
+  width: 250px;
+  height: 350px;
+  object-fit: cover;
+}
+
+.bookInfo{
+  margin-left: 150px;
+}
+
+.bookInfo label{
+  font-size: 35px;
+  font-weight: 500;
+  font-family: "Playfair Display";
+  font-style: italic;
+}
+
+.bookInfo h1{
+  color: black;
+}
+
+.container button{
+  background-color: #483c32;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.container button:hover{
+  opacity: 0.8;
+}
+
+.group{
+  display: flex;
+  flex-direction: column;
+}
+
+.group input{
+  width: 350px;
+  height: 50px;
+  font-size: 20px;
+}
+
+.group textarea{
+  width: 600px;
+  height: 150px;
+  font-size: 20px;
+}

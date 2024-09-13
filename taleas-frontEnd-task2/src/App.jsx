@@ -1,32 +1,44 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Home from './components/Home'
-import PublicFigureDetails from './components/PublicFigureDetails'
-import BookDetails from './components/BookDetails'
-import Login from './components/Login'
-import Register from './components/Register'
-import Books from './components/Books'
-import PublicFigures from './components/PublicFigures'
-import About from './components/About'
-
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import PublicFigures from "./components/Public Figure/PublicFigures";
+import PublicFigureDetails from "./components/Public Figure/PublicFigureDetails";
+import AddPublicFigure from "./components/Public Figure/AddPublicFigure";
+import AddBook from "./components/Book/AddBook";
+import BookDetails from "./components/Book/BookDetails";
+import Books from "./components/Book/Books";
+import About from "./components/About";
+import EditPublicFigure from "./components/Public Figure/EditPublicFigure";
+import MyProfile from "./components/MyProfile";
+import EditBook from "./components/Book/EditBook";
+import AddReview from "./components/AddReview";
 
 function App() {
-
   return (
-    <BrowserRouter>
-    <Navbar/>
-     <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/publicFigure/:id' element ={ <PublicFigureDetails/>}/>
-      <Route path='/book/:id' element ={ <BookDetails/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/register' element={<Register/>}/>
-      <Route path='/books' element={<Books/>}/>
-      <Route path='/publicFigures' element={<PublicFigures/>}/>
-      <Route path='/about' element={<About/>}/>
-     </Routes>
-    </BrowserRouter>
-  )
+    <>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/book/:bookId" element={<BookDetails />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/book/add" element={<AddBook />} />
+          <Route path="/book/edit/:id" element={<EditBook/>}/>
+          <Route path="/publicFigures" element={<PublicFigures />} />
+          <Route path="/publicFigure/add" element={<AddPublicFigure />} />
+          <Route path="/publicFigure/edit/:id" element={<EditPublicFigure />} />
+          <Route path="/publicFigure/:id" element={<PublicFigureDetails />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/profile/user/:userId" element={<MyProfile />} />
+          <Route path="/addReview/:id" element={<AddReview/>}/>
+        </Routes>
+
+    </>
+
+  );
 }
 
-export default App
+export default App;

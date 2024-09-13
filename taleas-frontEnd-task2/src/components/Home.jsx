@@ -1,73 +1,125 @@
-import React from 'react';
+import classes from "./Home.module.css";
+import { Link } from "react-router-dom";
+import placeholderImage from "../icons/placeholderImage.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import readingMale from "../icons/male-reading-2.png";
 
 const Home = () => {
+  const [publicFigures, setPublicFigures] = useState([]);
+  const [books, setBooks] = useState([]);
+  const navigate = useNavigate();
+
+  const handleCardClick = (id, type) => {
+    navigate(`/${type}/${id}`);
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/publicFigures")
+      .then((response) => {
+        setPublicFigures(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching public figures", error);
+      });
+
+    axios
+      .get("http://localhost:5000/api/books")
+      .then((response) => {
+        setBooks(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching books:", error);
+      });
+  }, []);
   return (
-    <div>
-      {/* Hero Section */}
-      <header>
-        <h1>Welcome to Your Library</h1>
-        <p>Discover books recommended by influential public figures and explore their insights.</p>
+    <div className={classes.container}>
+      <header className={classes.header}>
+        <img src={readingMale} />
+        <div className={classes.welcomeText}>
+          <h1>
+            <span className={classes.appTitle}>Welcome to </span>
+            <br />
+            Influential Pages
+          </h1>
+          <p>
+            Discover books recommended by influential public figures
+            <br /> and explore their insights.
+          </p>
+        </div>
       </header>
 
-      {/* Featured Public Figures */}
-      <section>
-        <h2>Featured Public Figures</h2>
-        {/* Replace with actual data */}
-        <div className="public-figures">
-          <div className="figure-card">
-            <img src="path/to/image.jpg" alt="Public Figure" />
-            <h3>Public Figure Name</h3>
-            <p>Brief description about the public figure.</p>
-            <button>View All Public Figures</button>
+      <div className={classes.quote}>
+        <h1>
+        <span>
+          “The only thing that you absolutely have to know is the location of the library"
+          </span>
+          <br/>
+          Albert Einstein
+
+        </h1>
+      </div>
+
+      <div></div>
+      <section className={classes.publicFigureSection}>
+        <div className={classes.cardHeader}>
+          <h1>Featured People</h1>
+          <Link to="/publicFigures"> View All Here</Link>
+        </div>
+
+        <div className={classes.cardDisplay}>
+          {publicFigures.slice(0, 12).map((publicFigure) => (
+            <div key={publicFigure._id} className={classes.figureCard}>
+              <div
+                className={classes.redirectPart}
+                onClick={() =>
+                  handleCardClick(publicFigure._id, "publicFigure")
+                }
+              >
+                <img
+                  src={publicFigure.imageUrl || placeholderImage}
+                  alt={publicFigure.name}
+                />
+                <h3>{publicFigure.name}</h3>
+              </div>
+
+              {/* <div className={classes.cardInfo}>
+                  <p className={classes.description}>
+                    {publicFigure.industries}
+                  </p>
+                </div> */}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className={classes.topBooks}>
+        <section className={classes.bookSection}>
+          <div className={classes.cardHeader}>
+            <h1>Featured Books</h1>
+            <Link to="/books"> View All Here</Link>
           </div>
-          {/* Add more figures as needed */}
-        </div>
-      </section>
 
-      {/* Top Book Suggestions */}
-      <section>
-        <h2>Top Book Suggestions</h2>
-        {/* Replace with actual data */}
-        <div className="book-suggestions">
-          <div className="book-card">
-            <img src="path/to/book-cover.jpg" alt="Book Title" />
-            <h3>Book Title</h3>
-            <p>Short description of the book.</p>
+          <div className={classes.cardDisplay}>
+            {books.slice(0, 12).map((book) => (
+              <div
+                key={book._id}
+                className={classes.bookCard}
+                onClick={() => handleCardClick(book._id, "book")}
+              >
+                <img src={book.imageUrl || placeholderImage} alt={book.title} />
+
+                <div className={classes.cardInfo}>
+                  <h3>{book.title}</h3>
+                  <p className={classes.description}>{book.author}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          {/* Add more book suggestions as needed */}
-        </div>
-      </section>
-
-      {/* Search Bar */}
-      <section>
-        <h2>Search for Books or Public Figures</h2>
-        <input type="text" placeholder="Search..." />
-        <button>Search</button>
-      </section>
-
-      {/* Recent Reviews or Comments */}
-      <section>
-        <h2>Recent Reviews</h2>
-        {/* Replace with actual data */}
-        <div className="review-card">
-          <p>"Great book! Highly recommend."</p>
-          <p>- User Name</p>
-        </div>
-        {/* Add more reviews as needed */}
-      </section>
-
-      {/* Call to Action */}
-      <section>
-        <h2>Join Us</h2>
-        <p>Register to start discovering and sharing book recommendations.</p>
-        <button>Register</button>
-      </section>
-
-      {/* Footer */}
-      <footer>
-        <p>Contact us at info@yourlibrary.com</p>
-        <p>Follow us on social media: [Social Media Links]</p>
-      </footer>
+        </section>
+      </div>
     </div>
   );
 };

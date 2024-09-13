@@ -1,0 +1,54 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #1f4d8f;
+  margin-top: 40px;
+}
+
+h2{
+  font-size: 40px;
+  font-weight: 400;
+}
+p{
+  color: rgb(62, 61, 61);
+  font-size: 22px;
+}
+.container ul {
+  list-style: none;
+}
+
+
+.description{
+  width: 80%;
+  text-align: center;
+}
+.container ul li{
+  text-align: center;
+  padding: 8px;
+  cursor: pointer;
+}
+
+
+.recommendedBookList{
+  display: flex;
+  width: 700px;
+  justify-content: space-around;
+}
+
+.figureImg{
+  width: 250px;
+  height: 250px;
+}
+
+.bookCard{
+width: 250px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}

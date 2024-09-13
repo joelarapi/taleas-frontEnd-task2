@@ -1,0 +1,76 @@
+.header{
+  font-size: 40px;
+  font-weight: 500;
+  margin: 8px 0;
+}
+
+table{
+  background-color: #343a40;;
+  color: white;
+  width: 100%;
+}
+
+table td{
+  padding: 12px;
+}
+
+table tbody{
+  background-color: white;
+  color: black;
+}
+
+table tr{
+  height: 40px;
+  border-color: inherit;
+  vertical-align: inherit;
+}
+
+
+table td a{
+  text-decoration: none;
+  margin: 0px 8px;
+}
+
+.headerContainer{
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+  align-items: center;
+}
+
+.addButton{
+  background-color: #483c32;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.addButton:hover{
+opacity: 0.8;
+}
+
+
+
+.deleteButton{
+  border: none;
+  color: red;
+  background-color: white;
+  font-size: 16px;
+}
+
+.descriptionCell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actionCell{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

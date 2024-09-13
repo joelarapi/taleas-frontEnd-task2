@@ -1,4 +1,7 @@
 body{
+  background-color: #f7f6f1;
+  color: #1f4d8f;
   margin: 0;
-  font-family: 'Roboto';
+  font-family: 'Lato';
+  padding-top: 60px;
 }

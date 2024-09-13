@@ -1,0 +1,51 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  margin-top: 70px;
+  width: 80%;
+}
+
+.bookContainer{
+  display: flex;
+  margin: auto;
+  align-items: top;
+width: 100%;
+}
+
+.bookContainer img{
+  width: 250px;
+  height: 350px;
+  object-fit: cover;
+}
+
+.bookInfo{
+  margin-left: 150px;
+}
+
+.bookInfo label{
+  font-size: 35px;
+  font-weight: 500;
+  font-family: "Playfair Display";
+  font-style: italic;
+}
+
+.bookInfo h1{
+  color: black;
+}
+
+.container button{
+  background-color: #483c32;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.container button:hover{
+  opacity: 0.8;
+}

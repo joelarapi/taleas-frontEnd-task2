@@ -1,0 +1,97 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.container div{
+display: flex;
+flex-direction: column;
+width: 550px;
+margin-bottom: 20px;
+}
+
+
+.container input{
+  height: 50px;
+  border-radius: 8px;
+  padding-left: 20px;
+}
+
+.submitBttn{
+  border: 3px solid rgb(0, 157, 255);
+  color: white;
+  background-color: rgb(0, 157, 255);
+  font-size: 20px;
+  width: 200px;
+  border-radius: 8px;
+  height: 50px;
+}
+
+.submitBttn:hover{
+  opacity: 0.8;
+  transition: 0.2s;
+}
+
+.container select{
+  height: 50px;
+  border-radius: 8px;
+}
+
+.container ul{
+  list-style: none;
+}
+
+.bookCard{
+  border: 2px solid black;
+  width:150px ;
+  height: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.industries{
+  background-color: inherit;
+}
+
+.industries:hover{
+  color: red;
+  cursor: pointer;
+}
+
+
+.addIndustryBttn{
+  background-color: #483c32;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.addIndustryBttn:hover{
+  opacity: 0.8;
+}
+
+.industriesList{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 550px;
+  list-style: none;
+  padding: 0;
+}
+
+.industriesList li{
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.bookList{
+  display: flex;
+  justify-content: space-around;
+}

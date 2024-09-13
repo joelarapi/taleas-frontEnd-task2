@@ -1,0 +1,55 @@
+.container{
+  width: 80%;
+  margin: auto;
+  display: flex;
+  margin-top: 50px;
+}
+.container img{
+  width: 250px;
+  height: 350px;
+  object-fit: cover;
+}
+
+
+.reviewContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 150px;
+}
+
+.revText{
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.revText textarea{
+  width: 550px;
+  height: 150px;
+  padding: 10px;
+}
+.revText textarea::placeholder{
+  text-align: start;
+  font-size: 16px;
+  font-family: 'Lato';
+}
+
+
+.reviewContainer button{
+  background-color: #483c32;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  margin-top: 30px;
+  width: 300px;
+}
+
+.reviewContainer button:hover{
+  opacity: 0.8;
+}
+

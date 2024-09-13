@@ -63,15 +63,15 @@ const Register = () => {
             required 
           />
         </div>
-        <div>
-          <label>Password:</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-        </div>
+          <div>
+            <label>Password:</label>
+            <input 
+              type="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+            />
+          </div>
         <div>
           <label>Confirm Password:</label>
           <input 
@@ -81,7 +81,7 @@ const Register = () => {
             required 
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" className={classes.submitBttn}>Register</button>
       </form>
     </div>
   );

@@ -13,19 +13,25 @@ const PublicFigureDetails = () => {
     axios.get(`http://localhost:5000/api/publicFigure/${id}`)
       .then((response) => {
         setPublicFigure(response.data);
-        if (response.data.recommendedBooks.length > 0) {
-          return axios.get(`http://localhost:5000/api/books`, { params: { ids: response.data.recommendedBooks.join(',') } });
-        } else {
-          return []; 
+        const recommendedBooks = response.data.recommendedBooks || [];
+        if (recommendedBooks.length > 0) {
+          const bookIds = recommendedBooks.map(book => book._id).join(',');
+          console.log('Fetching books for IDs:', bookIds);
+          if (bookIds) {
+            return axios.get(`http://localhost:5000/api/books/ids?ids=${bookIds}`);
+          }
         }
+        return { data: { books: [], missingBookIds: [], message: 'No books found' } };
       })
       .then((response) => {
-        setRecommendedBooks(response.data);
+        console.log('Recommended Books:', response.data);
+        setRecommendedBooks(response.data.books || []);
       })
       .catch((error) => {
         console.log("There was an error fetching public figure or books", error);
       });
   }, [id]);
+
 
   const handleNavigate = (id) => {
     navigate(`/book/${id}`);
@@ -38,18 +44,21 @@ const PublicFigureDetails = () => {
   const bookText = bookCount === 1 ? "book recommended" : "books recommended";
   return (
     <div className={classes.container}>
-    
+    <img src={publicFigure.imageUrl} className={classes.figureImg}/>
     <h1>{publicFigure.name}</h1>
     <h2>{bookCount} {bookText} by {publicFigure.name}</h2>
-    <p>{publicFigure.name} is a {publicFigure.description}</p>
+    <p className={classes.description}>{publicFigure.name} is a {publicFigure.description}</p>
 
   <p>Below you can find books recommended by {publicFigure.name}</p>
 
-  <ul>
+  <ul className={classes.recommendedBookList}>
         {recommendedBooks.map((book) => (
-          <li key={book._id} onClick={() => handleNavigate(book._id)}>
-            <h3>{book.title}</h3>
-            <p> by {book.author}</p>
+          <li key={book._id} onClick={() => handleNavigate(book._id)} className={classes.bookCard}>
+          <img src={book.imageUrl}/>
+          <div className={classes.bookInfo}>
+          <h3>{book.title}</h3>
+          <p>by {book.author}</p>
+          </div>
           </li>
         ))}
       </ul>

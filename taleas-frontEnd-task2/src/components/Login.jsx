@@ -2,19 +2,24 @@ import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
 import classes from './Login.module.css'
+import revealPassIcon from '../icons/revealPassIcon.png';
+import hidePassIcon from '../icons/hidePassIcon.png';
+import { useUser } from "../context/UserContext";
 
 const Login = () => {
 
   const [email , setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errMsg, setErrMsg] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate()
+  const { updateUser } = useUser();
+ 
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    
     try {
       const response = await axios.post(
         "http://localhost:5000/api/login",
@@ -23,17 +28,19 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true, 
+          withCredentials: true,
         }
       );
   
-
-      const userData = response?.data?.user;
+      const { accessToken, user } = response.data;
   
-      if (userData) {
-        localStorage.setItem("accessToken", response?.data?.accessToken);
-        localStorage.setItem("isAdmin", userData.isAdmin); 
+      if (user) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userId", user.id); 
+        localStorage.setItem("isAdmin", user.isAdmin);
 
+        updateUser(user); 
+        
         setEmail("");
         setPassword("");
         navigate('/');
@@ -45,6 +52,7 @@ const Login = () => {
       setErrMsg("Login Error: " + (err.response?.data?.message || "An unexpected error occurred"));
     }
   };
+
   
 
 
@@ -54,10 +62,29 @@ const Login = () => {
 
     <p>Dont have an account ? <Link to='/register'>Register Here</Link></p>
     <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
-    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
+   
+    <div className={classes.passwordContainer}>
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(prevState => !prevState)}
+          className={classes.eyeIcon}
+        >
+          <img
+            src={showPassword ? hidePassIcon : revealPassIcon}
+            alt="Toggle password visibility"
+          />
+        </button>
+      </div>
 
     <p>Forgot password ? <a>Click here</a></p>
-    <button> Log in </button>
+    <button className={classes.loginBttn}> Log in </button>
+    {errMsg && <p className={classes.error}>{errMsg}</p>}
     </form>
   )
 }
