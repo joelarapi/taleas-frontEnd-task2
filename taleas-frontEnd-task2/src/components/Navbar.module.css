@@ -11,11 +11,15 @@
   margin: 0;
   padding: 0;
   /* background-color: 	#f9e9de ; */
-  background-color: #dcd1c3;
+  /* background-color: #dcd1c3; */
+  background-color: rgb(245, 241, 223);
 }
+
+
+
 .container a {
   text-decoration: none;
-  color: #483c32;
+  color: #122d55;
   font-weight: 700;
   margin-right: 20px;
 }
@@ -26,7 +30,6 @@
 
 
 .container a.activeLink {
-
   color: #cc6c5c;
 }
 .container ul{
@@ -62,7 +65,7 @@
 .loginBttn{
   border: none;
   background-color: inherit;
-  color: #483c32;
+  color: #122d55;
   font-weight: 700;
   cursor: pointer;
 }

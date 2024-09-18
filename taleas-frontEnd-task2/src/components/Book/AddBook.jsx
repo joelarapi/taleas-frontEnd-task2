@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import classes from './AddBook.module.css'
+import Button from "../Button";
 
 const AddBook = () => {
 
@@ -66,7 +67,7 @@ const AddBook = () => {
       <input type="date" placeholder="Date of Release" value={publishDate} onChange={(e) => setPublishDate(e.target.value)}/>
     </div>
 
-    <button className={classes.submitBttn}>Submit Book</button>
+    <Button className={classes.submitBttn}>Submit Book</Button>
     </form>
   )
 }

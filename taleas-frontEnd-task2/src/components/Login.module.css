@@ -29,7 +29,7 @@
 }
 
 .loginBttn{
-  background-color: rgb(0, 157, 255);
+  background-color: #ec9200;
   color: white;
   border: none;
   border-radius: 12px;
@@ -65,6 +65,7 @@
   height: 45px;
   border-radius: 8px;
   margin-top: 20px;
+  background-color: white;
 }
 
 .passwordContainer input{

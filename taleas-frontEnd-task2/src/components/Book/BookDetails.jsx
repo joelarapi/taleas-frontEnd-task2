@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import classes from "./BookDetails.module.css";
 import StarRating from "../StarRating";
+import profilePic from '../../icons/profilePic-placeholder.png'
+import Button from "../Button";
 
 const BookDetails = () => {
   const { bookId } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,12 +18,30 @@ const BookDetails = () => {
       axios
         .get(`http://localhost:5000/api/book/${bookId}`)
         .then((response) => {
-          console.log("Fetched book data:", response.data);  
           setBook(response.data);
           setLoading(false);
         })
         .catch((error) => {
           console.error("There was an error fetching book details", error);
+          setLoading(false);
+        });
+    }
+  }, [bookId]);
+
+  useEffect(() => {
+    if (bookId) {
+      axios
+        .get(`http://localhost:5000/api/book/${bookId}/reviews`)
+        .then((response) => {
+          console.log("Fetched reviews:", response.data.reviews);
+          setReviews(response.data.reviews);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(
+            "There was an error fetching the reviews for this book",
+            error
+          );
           setLoading(false);
         });
     }
@@ -43,26 +64,55 @@ const BookDetails = () => {
   return (
     <div className={classes.container}>
       <div className={classes.bookContainer}>
-        <img src={book.imageUrl} alt={book.title} />
-
+        <div className={classes.bookAndRating}>
+          <img src={book.imageUrl} alt={book.title} />
+          <p>
+            Book Rating {book.averageRating}{" "}
+            <span className={classes.star}>★</span>
+          </p>
+          <button onClick={navigateToReview}>Add a review</button>
+        </div>
         <div className={classes.bookInfo}>
-          <label>Book Title</label>
-          <h1>{book.title}</h1>
-          <label>Author:</label> 
-          <p>{book.author}</p>
-          <label>Publish Date:</label>
-          <p>{new Date(book.publish_date).toLocaleDateString()}</p>
+          <h1 className={classes.title}>{book.title} by <span className={classes.author}>{book.author}</span></h1>
+          <p className={classes.publishDate}>Published in {new Date(book.publish_date).toLocaleDateString()}</p>
           <div>
-            <label>Description:</label>
-            <p>{book.description}</p>
+            <label className={classes.descriptionLabel}>Description:</label>
+            <p className={classes.description}>{book.description}</p>
           </div>
         </div>
       </div>
 
-      <button onClick={navigateToReview}>Add a review</button>
-</div>
-     
-    
+
+
+      <div className={classes.reviews}>
+      <div className={classes.reviewHeader}>
+      <label>Reviews:</label>
+      <div className={classes.revLine}></div>
+      </div>
+
+        <div>
+          <ul className={classes.reviewList}>
+            {reviews.map((review) => (
+              <li key={review._id} >
+              <div className={classes.userReview}>
+              <p><img src={profilePic} className={classes.profileImg}/>{review.userId.userName}</p>
+              <StarRating rating={review.rating} readOnly={true} />
+              </div>
+              
+                <p className={classes.content}>{review.content}</p>
+                <p className={classes.date}>
+                  {new Date(review.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 

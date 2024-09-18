@@ -1,14 +1,49 @@
+.mainContainer{
+  display: flex;flex-direction: column;
+  align-items: center;
+}
+
 .container{
   display: flex;
   flex-direction: column;
   align-items: center;
-}.container{
+}
+
+.container{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #1f4d8f;
   margin-top: 40px;
+}
+
+.container label{
+  font-size: 24px;
+}
+
+.container input{
+  width: 530px;
+  height: 55px;
+  font-size: 20px;
+  padding-left: 20px;
+  border-radius: 8px;
+  border: 1px solid rgb(213, 213, 213);
+}
+.figureImage{
+  width: 250px;
+  height: 250px;
+}
+
+.container textarea{
+  width: 530px;
+  font-size: 20px;
+  height: 100%;
+  padding-left: 20px;
+  border-radius: 8px;
+  border: 1px solid rgb(213, 213, 213);
+  min-height: 150px;
+  padding-top: 10px;
 }
 
 h2{
@@ -19,16 +54,13 @@ p{
   color: rgb(62, 61, 61);
   font-size: 22px;
 }
-.container ul {
-  list-style: none;
-}
 
 
 .description{
   width: 80%;
   text-align: center;
 }
-.container ul li{
+.container li{
   text-align: center;
   padding: 8px;
   cursor: pointer;
@@ -36,7 +68,9 @@ p{
 
 
 .recommendedBookList{
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  flex-direction: row;
   width: 700px;
   justify-content: space-around;
 }
@@ -51,4 +85,91 @@ width: 250px;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
+align-items: center;
+}
+
+.group{
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.group select{
+  width: 550px;
+  height: 50px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+
+.bookImage{
+  width: 150px;
+}
+
+.bookRecommendations{
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.bookRecommendTxt{
+  margin-top: 50px;
+}
+
+.submitBttn{
+  background-color: #483c32;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.submitBttn:hover{
+  opacity: 0.8;
+}
+
+
+.industryList{
+  margin: auto;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
+}
+
+.industryItem{
+  background-color: rgb(168, 255, 255);
+  margin: 10px;
+}
+
+.availableIndustries{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.industryGroup{
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.industryGroup .industryItem:hover{
+  color: rgb(250, 86, 86);
+}
+
+.selectedIndustryList{
+  display: flex;
+  flex-wrap: wrap; 
+  list-style: none;
+  width: 50%;
+  margin: auto;
+  padding: 0; 
 }

@@ -8,10 +8,23 @@ const AddPublicFigure = () => {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [industryInput, setIndustryInput] = useState("");
-  const [industries, setIndustries] = useState([""]);
+  const [industries, setIndustries] = useState([]);
+  const [selectedIndustries, setSelectedIndustries] = useState([]);
   const [recommendedBooks, setRecommendedBooks] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/industries")
+      .then((response) => {
+        setIndustries(response.data); 
+      })
+      .catch((error) => {
+        console.log("Error fetching industries", error);
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -29,7 +42,7 @@ const AddPublicFigure = () => {
     axios.post('http://localhost:5000/api/publicFigure',  {
         name,
         description,
-        industries: industries.filter(industry => industry.trim() !== ""),
+        industries: selectedIndustries,
         recommendedBooks,
         imageUrl
       })
@@ -47,12 +60,18 @@ const AddPublicFigure = () => {
       });
   };
 
-  const handleAddIndustry = () => {
-    if (industryInput.trim() !== "") {
-      setIndustries([...industries, industryInput.trim()]); //trim heq whitespaces e panevojshme
-      setIndustryInput("");
+
+  const toggleIndustry = (industry) => {
+    if (selectedIndustries.includes(industry)) {
+      // Remove the industry if already selected
+      setSelectedIndustries(selectedIndustries.filter(i => i !== industry));
+    } else {
+      // Add the industry if not selected
+      setSelectedIndustries([...selectedIndustries, industry]);
     }
   };
+
+
 
   const handleRemoveIndustry = (indexToRemove) => {
     setIndustries(industries.filter((_, index) => index !== indexToRemove));
@@ -101,30 +120,28 @@ const AddPublicFigure = () => {
 
       <div>
         <label>Industries this Public Figure is a part of:</label>
-        <input
-          type="text"
-          placeholder="Add an Industry"
-          value={industryInput}
-          onChange={(e) => setIndustryInput(e.target.value)}
-        />
-        <button
-          type="button"
-          onClick={handleAddIndustry}
-          className={classes.addIndustryBttn}
-        >
-          Add 
-        </button>
+        <div className={classes.industriesList}>
+          {industries.map((industry) => (
+            <span
+              key={industry._id}
+              className={`${classes.industryItem} ${selectedIndustries.includes(industry.name) ? classes.selected : ''}`}
+              onClick={() => toggleIndustry(industry.name)}
+            >
+              {industry.name}
+            </span>
+          ))}
+        </div>
 
-        <ul className={classes.industriesList}>
-          {industries.map(
-            (industry, index) =>
-              industry && (
-                <li key={index} className={classes.industries}  onClick={() => handleRemoveIndustry(index)}>
-                  {industry}
-                </li>
-              )
-          )}
-        </ul>
+        <div className={classes.selectedIndustries}>
+          <h4>Selected Industries:</h4>
+          <ul>
+            {selectedIndustries.map((industry, index) => (
+              <li key={index} onClick={() => toggleIndustry(industry)}>
+                {industry}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
 

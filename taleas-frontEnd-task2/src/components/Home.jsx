@@ -4,7 +4,8 @@ import placeholderImage from "../icons/placeholderImage.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import readingMale from "../icons/male-reading-2.png";
+// import readingMale from "../icons/male-reading-2.png";
+import mainImage from '../icons/coverImage.jpeg'
 
 const Home = () => {
   const [publicFigures, setPublicFigures] = useState([]);
@@ -37,7 +38,7 @@ const Home = () => {
   return (
     <div className={classes.container}>
       <header className={classes.header}>
-        <img src={readingMale} />
+
         <div className={classes.welcomeText}>
           <h1>
             <span className={classes.appTitle}>Welcome to </span>
@@ -49,6 +50,7 @@ const Home = () => {
             <br /> and explore their insights.
           </p>
         </div>
+        <img src={mainImage} />
       </header>
 
       <div className={classes.quote}>

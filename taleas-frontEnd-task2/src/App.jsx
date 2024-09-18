@@ -14,6 +14,8 @@ import EditPublicFigure from "./components/Public Figure/EditPublicFigure";
 import MyProfile from "./components/MyProfile";
 import EditBook from "./components/Book/EditBook";
 import AddReview from "./components/AddReview";
+import AccountSettings from "./components/AccountSettings";
+import UserReviews from "./components/UserReview";
 
 function App() {
   return (
@@ -28,12 +30,19 @@ function App() {
           <Route path="/book/add" element={<AddBook />} />
           <Route path="/book/edit/:id" element={<EditBook/>}/>
           <Route path="/publicFigures" element={<PublicFigures />} />
+          <Route path="/publicFigures/:industryName" element={<PublicFigures />} />
+          <Route path="/publicFigure/:id" element={<PublicFigureDetails />} />
           <Route path="/publicFigure/add" element={<AddPublicFigure />} />
           <Route path="/publicFigure/edit/:id" element={<EditPublicFigure />} />
           <Route path="/publicFigure/:id" element={<PublicFigureDetails />} />
           <Route path="/about" element={<About />} />
-          <Route path="/profile/user/:userId" element={<MyProfile />} />
+          <Route path="/profile/user/:userId" element={<MyProfile/>}/>
+          {/* <Route path="/profile/user/:userId" element={<MyProfile />}>
+          <Route path="settings" element={<AccountSettings/>}/>
+          <Route path="/reviews" element={<UserReviews/>}/>
+          </Route> */}
           <Route path="/addReview/:id" element={<AddReview/>}/>
+
         </Routes>
 
     </>

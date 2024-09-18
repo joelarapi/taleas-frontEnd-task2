@@ -5,15 +5,15 @@ const StarRating = ({ rating, onChange, readOnly = false }) => {
   const [hoverRating, setHoverRating] = useState(null);
 
   const handleClick = (value) => {
-    onChange(value);
+    if (!readOnly) onChange(value); 
   };
 
   const handleMouseEnter = (value) => {
-    setHoverRating(value);
+    if (!readOnly) setHoverRating(value); 
   };
 
   const handleMouseLeave = () => {
-    setHoverRating(null);
+    if (!readOnly) setHoverRating(null); 
   };
 
   return (

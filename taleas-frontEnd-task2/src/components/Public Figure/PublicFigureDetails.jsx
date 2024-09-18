@@ -1,69 +1,163 @@
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import classes from './PublicFigureDetails.module.css'
+import classes from "./PublicFigureDetails.module.css";
+import Button from "../Button";
 
 const PublicFigureDetails = () => {
-  const navigate  = useNavigate()
-  const {id} = useParams();
-  const [publicFigure, setPublicFigure] = useState(null)
-  const [recommendedBooks , setRecommendedBooks] = useState([])
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [publicFigure, setPublicFigure] = useState(null);
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
+  const [allIndustries, setAllIndustries] = useState([]);
+  const [industryMap, setIndustryMap] = useState({});
+
+  // Retrieve isAdmin from local storage
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/publicFigure/${id}`)
+    // Fetch public figure data
+    axios
+      .get(`http://localhost:5000/api/publicFigure/${id}`)
       .then((response) => {
         setPublicFigure(response.data);
         const recommendedBooks = response.data.recommendedBooks || [];
         if (recommendedBooks.length > 0) {
-          const bookIds = recommendedBooks.map(book => book._id).join(',');
-          console.log('Fetching books for IDs:', bookIds);
+          const bookIds = recommendedBooks.map((book) => book._id).join(",");
           if (bookIds) {
-            return axios.get(`http://localhost:5000/api/books/ids?ids=${bookIds}`);
+            return axios.get(
+              `http://localhost:5000/api/books/ids?ids=${bookIds}`
+            );
           }
         }
-        return { data: { books: [], missingBookIds: [], message: 'No books found' } };
+        return {
+          data: { books: [], missingBooksIds: [], message: "No books found" },
+        };
       })
       .then((response) => {
-        console.log('Recommended Books:', response.data);
         setRecommendedBooks(response.data.books || []);
       })
       .catch((error) => {
-        console.log("There was an error fetching public figure or books", error);
+        console.error("There was an error fetching public figure data!", error);
+      });
+
+    // Fetch all industries
+    axios
+      .get("http://localhost:5000/api/industries")
+      .then((response) => {
+        setAllIndustries(response.data);
+        // Create a map of industry IDs to names
+        const industryMap = response.data.reduce((map, industry) => {
+          map[industry._id] = industry.name;
+          return map;
+        }, {});
+        setIndustryMap(industryMap);
+      })
+      .catch((error) => {
+        console.log(
+          "There was an error fetching the list of industries",
+          error
+        );
       });
   }, [id]);
 
-
-  const handleNavigate = (id) => {
-    navigate(`/book/${id}`);
+  const handleNavigate = (bookId) => {
+    navigate(`/book/${bookId}`);
   };
 
-  if(!publicFigure){
-    return<p>Loading ...</p>
+  const handleEdit = () => {
+    navigate(`/publicFigure/edit/${id}`);
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this public figure?")) {
+      axios
+        .delete(`http://localhost:5000/api/publicFigure/${id}`)
+        .then(() => {
+          navigate("/publicFigures");
+        })
+        .catch((error) => {
+          console.error("There was an error deleting the public figure", error);
+        });
+    }
+  };
+
+  if (!publicFigure) {
+    return <p>Loading ...</p>;
   }
+
   const bookCount = publicFigure.recommendedBooks.length;
-  const bookText = bookCount === 1 ? "book recommended" : "books recommended";
+
   return (
     <div className={classes.container}>
-    <img src={publicFigure.imageUrl} className={classes.figureImg}/>
-    <h1>{publicFigure.name}</h1>
-    <h2>{bookCount} {bookText} by {publicFigure.name}</h2>
-    <p className={classes.description}>{publicFigure.name} is a {publicFigure.description}</p>
 
-  <p>Below you can find books recommended by {publicFigure.name}</p>
+    <div className={classes.publicFigureSection}>
+    <div className={classes.publicFigure}>
+        <img
+          src={publicFigure.imageUrl}
+          className={classes.figureImg}
+          alt={publicFigure.name}
+        />
+      </div>
 
-  <ul className={classes.recommendedBookList}>
-        {recommendedBooks.map((book) => (
-          <li key={book._id} onClick={() => handleNavigate(book._id)} className={classes.bookCard}>
-          <img src={book.imageUrl}/>
-          <div className={classes.bookInfo}>
-          <h3>{book.title}</h3>
-          <p>by {book.author}</p>
+
+      <div className={classes.figureInfo}>
+        <p className={classes.name}>{publicFigure.name}</p>
+        <p className={classes.figureDescription}>
+          {publicFigure.name} is a {publicFigure.description}
+        </p>
+
+        <div className={classes.industries}>
+          <h3>Industries this person is a part of :</h3>
+          <ul className={classes.industryList}>
+            {publicFigure.industries && publicFigure.industries.length > 0 ? (
+              publicFigure.industries.map((industryId) => (
+                <li key={industryId} className={classes.industries}>
+                  {industryMap[industryId] || "Industry not found"}
+                </li>
+              ))
+            ) : (
+              <li>No industries listed.</li>
+            )}
+          </ul>
+        </div>
+
+        {isAdmin && (
+          <div className={classes.buttons}>
+            <Button onClick={handleEdit}>Edit</Button>
+            <Button onClick={handleDelete} className={classes.deleteButton}>
+              Delete
+            </Button>
           </div>
-          </li>
-        ))}
-      </ul>
+        )}
+      </div>
     </div>
-  )
-}
+  
 
-export default PublicFigureDetails
+
+
+
+      <div className={classes.recommendedBooks}>
+        <p>Below you can find books recommended by {publicFigure.name}</p>
+
+        <ul className={classes.recommendedBookList}>
+          {recommendedBooks.map((book) => (
+            <li
+              key={book._id}
+              onClick={() => handleNavigate(book._id)}
+              className={classes.bookCard}
+            >
+              <img src={book.imageUrl} alt={book.title} />
+              <div className={classes.bookInfo}>
+                <h3>{book.title}</h3>
+                <p>by {book.author}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default PublicFigureDetails;

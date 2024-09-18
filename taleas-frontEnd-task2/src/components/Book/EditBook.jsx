@@ -67,6 +67,11 @@ const EditBook = () => {
     <input value={book.author} type="text" onChange={(e) =>setBook({...book, author:e.target.value})}/>
     </div>
       
+    <div className={classes.group}>
+    <label>ImageURL:</label> 
+    <input value={book.imageUrl} type="text" onChange={(e) =>setBook({...book, imageUrl:e.target.value})}/>
+    </div>
+
       <div className={classes.group}>
       <label>Publish Date:</label>
       <input value={book.publish_date} type="date" onChange={(e) =>setBook({...book, publish_date:e.target.value})}/>
@@ -74,7 +79,7 @@ const EditBook = () => {
        
         <div className={classes.group}>
           <label>Description:</label>
-          <textarea value={book.description} type="text" onChange={(e) =>setBook({...book, publish_date:e.target.value})}/>
+          <textarea value={book.description} type="text" onChange={(e) =>setBook({...book, description:e.target.value})}/>
         </div>
       </div>
     </div>

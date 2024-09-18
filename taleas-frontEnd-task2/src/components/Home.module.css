@@ -11,6 +11,8 @@
 }
 
 .quote{
+  background-color: #122d55;
+  color: #f1e8db;
   border-top: 2px solid;
   border-bottom: 2px solid;
   padding: 40px 0;
@@ -44,16 +46,16 @@
 }
 
 .welcomeText h1{
-  font-size: 60px;
+  font-size: 55px;
 }
 
 .header img{
-  width: 700px;
+  width: 750px;
 }
 
 .header p {
   text-align: center;
-  font-size: 28px;
+  font-size: 26px;
   width: 900px;
 }
 
@@ -127,7 +129,6 @@ height: 40px;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  border-radius: 10px;
 }
 
 .figureCard:hover img {
@@ -191,6 +192,7 @@ height: 40px;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
+  border: 1px solid rgb(196, 194, 194);
 }
 
 .cardInfo{
