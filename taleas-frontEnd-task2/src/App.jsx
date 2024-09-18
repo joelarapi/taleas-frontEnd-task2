@@ -16,37 +16,37 @@ import EditBook from "./components/Book/EditBook";
 import AddReview from "./components/AddReview";
 import AccountSettings from "./components/AccountSettings";
 import UserReviews from "./components/UserReview";
+import Missing from "./components/Missing";
+import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute component
 
 function App() {
   return (
     <>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/book/:bookId" element={<BookDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/books" element={<Books />} />
-          <Route path="/book/add" element={<AddBook />} />
-          <Route path="/book/edit/:id" element={<EditBook/>}/>
-          <Route path="/publicFigures" element={<PublicFigures />} />
-          <Route path="/publicFigures/:industryName" element={<PublicFigures />} />
-          <Route path="/publicFigure/:id" element={<PublicFigureDetails />} />
-          <Route path="/publicFigure/add" element={<AddPublicFigure />} />
-          <Route path="/publicFigure/edit/:id" element={<EditPublicFigure />} />
-          <Route path="/publicFigure/:id" element={<PublicFigureDetails />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/profile/user/:userId" element={<MyProfile/>}/>
-          {/* <Route path="/profile/user/:userId" element={<MyProfile />}>
-          <Route path="settings" element={<AccountSettings/>}/>
-          <Route path="/reviews" element={<UserReviews/>}/>
-          </Route> */}
-          <Route path="/addReview/:id" element={<AddReview/>}/>
+      <Navbar />
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/book/:bookId" element={<BookDetails />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/books" element={<Books />} />
+        <Route path="/publicFigures" element={<PublicFigures />} />
+        <Route path="/publicFigures/:industryName" element={<PublicFigures />} />
+        <Route path="/publicFigure/:id" element={<PublicFigureDetails />} />
+        <Route path="/about" element={<About />} />
 
-        </Routes>
+        {/* Protected routes */}
+        <Route path="/book/add" element={<ProtectedRoute element={<AddBook />} adminOnly={true} />} />
+        <Route path="/book/edit/:id" element={<ProtectedRoute element={<EditBook />} adminOnly={true} />} />
+        <Route path="/publicFigure/add" element={<ProtectedRoute element={<AddPublicFigure />} adminOnly={true} />} />
+        <Route path="/publicFigure/edit/:id" element={<ProtectedRoute element={<EditPublicFigure />} adminOnly={true} />} />
+        <Route path="/profile/user/:userId" element={<ProtectedRoute element={<MyProfile />} />} />
+        <Route path="/addReview/:id" element={<ProtectedRoute element={<AddReview />} />} />
 
+        {/* Catch-all route for missing pages */}
+        <Route path="*" element={<Missing />} />
+      </Routes>
     </>
-
   );
 }
 
