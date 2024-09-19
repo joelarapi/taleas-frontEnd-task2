@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/api";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import classes from './MyProfile.module.css';
 import placeholderImage from '../icons/profilePic-placeholder.png';
@@ -12,7 +12,7 @@ const MyProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/user/${userId}`)
+    api.get(`/user/${userId}`)
       .then(response => {
         setUserData(response.data);
       })
@@ -20,7 +20,7 @@ const MyProfile = () => {
         console.error("There was an error fetching user data:", error);
       });
 
-    axios.get(`http://localhost:5000/api/user/${userId}/reviews`)
+      api.get(`/user/${userId}/reviews`)
       .then(response => {
         console.log(response.data);
         setReviews(response.data);
@@ -30,11 +30,6 @@ const MyProfile = () => {
       });
   }, [userId]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('userId');
-    navigate('/');
-  };
 
   if (!userData) {
     return <p>Loading...</p>;
@@ -55,7 +50,7 @@ const MyProfile = () => {
           <Link to={`/profile/user/${userId}/settings`} className={classes.link}>
             Account Settings
           </Link>
-          <Button onClick={handleLogout} className={classes.link}>
+          <Button  className={classes.link}>
             Log out
           </Button>
         </div>

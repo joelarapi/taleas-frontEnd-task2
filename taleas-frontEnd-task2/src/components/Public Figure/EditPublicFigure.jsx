@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import classes from "./EditPublicFigure.module.css";
 import Button from "../Button";
 
@@ -20,8 +20,8 @@ const EditPublicFigure = () => {
   const [selectedIndustries, setSelectedIndustries] = useState([]); 
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/publicFigure/${id}`)
+    api
+      .get(`/publicFigure/${id}`)
       .then((response) => {
         const figureData = response.data;
         setPublicFigure(figureData);
@@ -31,8 +31,8 @@ const EditPublicFigure = () => {
         if (recommendedBooks.length > 0) {
           const bookIds = recommendedBooks.map((book) => book._id).join(",");
           if (bookIds) {
-            return axios.get(
-              `http://localhost:5000/api/books/ids?ids=${bookIds}`
+            return api.get(
+              `/books/ids?ids=${bookIds}`
             );
           }
         }
@@ -45,8 +45,8 @@ const EditPublicFigure = () => {
         console.error("There was an error fetching public figure data!", error);
       });
 
-    axios
-      .get("http://localhost:5000/api/books")
+      api
+      .get("/books")
       .then((response) => {
         setAllBooks(response.data);
       })
@@ -55,8 +55,8 @@ const EditPublicFigure = () => {
       });
 
    
-    axios
-      .get("http://localhost:5000/api/industries")
+      api
+      .get("/industries")
       .then((response) => {
         setAllIndustries(response.data);
       })

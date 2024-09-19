@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import classes from "./BookDetails.module.css";
 import StarRating from "../StarRating";
 import profilePic from '../../icons/profilePic-placeholder.png'
@@ -15,8 +15,8 @@ const BookDetails = () => {
 
   useEffect(() => {
     if (bookId) {
-      axios
-        .get(`http://localhost:5000/api/book/${bookId}`)
+      api
+        .get(`/book/${bookId}`)
         .then((response) => {
           setBook(response.data);
           setLoading(false);
@@ -30,8 +30,8 @@ const BookDetails = () => {
 
   useEffect(() => {
     if (bookId) {
-      axios
-        .get(`http://localhost:5000/api/book/${bookId}/reviews`)
+      api
+        .get(`/book/${bookId}/reviews`)
         .then((response) => {
           console.log("Fetched reviews:", response.data.reviews);
           setReviews(response.data.reviews);

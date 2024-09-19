@@ -1,52 +1,36 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import axios from "axios"
 import classes from './Login.module.css'
 import revealPassIcon from '../icons/revealPassIcon.png';
 import hidePassIcon from '../icons/hidePassIcon.png';
 import { useUser } from "../context/UserContext";
-
+import api from "../api/api";
 
 const Login = () => {
-
-  const [email , setEmail] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errMsg, setErrMsg] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate()
   const { updateUser } = useUser();
- 
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrMsg("");
     
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/login",
-        { email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await api.post("/login", { email, password });
+      const { user, accessToken, refreshToken } = response.data;
   
-      const { accessToken, user } = response.data;
-  
-      if (user) {
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("userId", user.id); 
-        localStorage.setItem("isAdmin", user.isAdmin);
-
-        updateUser(user); 
-        
+      if (user && accessToken) {
+        updateUser({ ...user, accessToken });
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
         setEmail("");
         setPassword("");
         navigate('/');
       } else {
-        setErrMsg("Login Failed");
+        setErrMsg("Login Failed: Missing user data or access token");
       }
     } catch (err) {
       console.error("Login Error:", err);
@@ -54,22 +38,24 @@ const Login = () => {
     }
   };
 
-  
-
-
   return (
     <form onSubmit={handleSubmit} className={classes.container}>  
-    <h1>Log In</h1>
-
-    <p>Dont have an account ? <Link to='/register'>Register Here</Link></p>
-    <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
-   
-    <div className={classes.passwordContainer}>
+      <h1>Log In</h1>
+      <p>Don't have an account? <Link to='/register'>Register Here</Link></p>
+      <input 
+        type="email" 
+        placeholder="Email" 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <div className={classes.passwordContainer}>
         <input
           type={showPassword ? "text" : "password"}
           placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
           value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <button
           type="button"
@@ -82,12 +68,12 @@ const Login = () => {
           />
         </button>
       </div>
-
-    <p>Forgot password ? <a>Click here</a></p>
-    <button className={classes.loginBttn}> Log in </button>
-    {errMsg && <p className={classes.error}>{errMsg}</p>}
+      <p>Forgot password? <Link to="/forgot-password">Click here</Link></p>
+      <button className={classes.loginBttn} type="submit">Log in</button>
+      {errMsg && <p className={classes.error}>{errMsg}</p>}
     </form>
   )
 }
 
 export default Login
+

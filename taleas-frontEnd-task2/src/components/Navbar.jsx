@@ -8,10 +8,10 @@ const Navbar = () => {
 
   const isLoggedIn = !!user;
 
-  const handleAuthClick = () => {
+  const handleAuthClick = async () => {
     if (isLoggedIn) {
-      logout(); 
-      navigate("/");
+      await logout(); 
+      navigate("/");  
     } else {
       navigate("/login");
     }

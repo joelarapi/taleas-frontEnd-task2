@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/api";
 import StarRating from "./StarRating";
 import classes from "./AddReview.module.css";
 
@@ -12,8 +12,8 @@ const AddReview = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/book/${bookId}`)
+    api
+      .get(`/book/${bookId}`)
       .then((response) => {
         setBook(response.data);
       })
@@ -36,9 +36,9 @@ const AddReview = () => {
       return;
     }
 
-    axios
+    api
       .post(
-        `http://localhost:5000/api/book/${bookId}/reviews`,
+        `/book/${bookId}/reviews`,
         {
           content,
           rating,

@@ -2,9 +2,8 @@ import classes from "./Home.module.css";
 import { Link } from "react-router-dom";
 import placeholderImage from "../icons/placeholderImage.png";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/api";
 import { useNavigate } from "react-router-dom";
-// import readingMale from "../icons/male-reading-2.png";
 import mainImage from '../icons/coverImage.jpeg'
 
 const Home = () => {
@@ -17,8 +16,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/publicFigures")
+    api
+      .get("/publicFigures")
       .then((response) => {
         setPublicFigures(response.data);
       })
@@ -26,8 +25,8 @@ const Home = () => {
         console.log("Error fetching public figures", error);
       });
 
-    axios
-      .get("http://localhost:5000/api/books")
+      api
+      .get("/books")
       .then((response) => {
         setBooks(response.data);
       })

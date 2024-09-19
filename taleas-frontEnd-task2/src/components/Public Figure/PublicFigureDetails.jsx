@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import classes from "./PublicFigureDetails.module.css";
 import Button from "../Button";
 
@@ -12,21 +12,20 @@ const PublicFigureDetails = () => {
   const [allIndustries, setAllIndustries] = useState([]);
   const [industryMap, setIndustryMap] = useState({});
 
-  // Retrieve isAdmin from local storage
   const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
 
   useEffect(() => {
-    // Fetch public figure data
-    axios
-      .get(`http://localhost:5000/api/publicFigure/${id}`)
+
+    api
+      .get(`/publicFigure/${id}`)
       .then((response) => {
         setPublicFigure(response.data);
         const recommendedBooks = response.data.recommendedBooks || [];
         if (recommendedBooks.length > 0) {
           const bookIds = recommendedBooks.map((book) => book._id).join(",");
           if (bookIds) {
-            return axios.get(
-              `http://localhost:5000/api/books/ids?ids=${bookIds}`
+            return api.get(
+              `/books/ids?ids=${bookIds}`
             );
           }
         }
@@ -41,12 +40,12 @@ const PublicFigureDetails = () => {
         console.error("There was an error fetching public figure data!", error);
       });
 
-    // Fetch all industries
-    axios
-      .get("http://localhost:5000/api/industries")
+
+      api
+      .get("/industries")
       .then((response) => {
         setAllIndustries(response.data);
-        // Create a map of industry IDs to names
+
         const industryMap = response.data.reduce((map, industry) => {
           map[industry._id] = industry.name;
           return map;
@@ -71,8 +70,8 @@ const PublicFigureDetails = () => {
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this public figure?")) {
-      axios
-        .delete(`http://localhost:5000/api/publicFigure/${id}`)
+      api
+        .delete(`/publicFigure/${id}`)
         .then(() => {
           navigate("/publicFigures");
         })
@@ -107,7 +106,7 @@ const PublicFigureDetails = () => {
           {publicFigure.name} is a {publicFigure.description}
         </p>
 
-        <div className={classes.industries}>
+        <div className={classes.industriesCell}>
           <h3>Industries this person is a part of :</h3>
           <ul className={classes.industryList}>
             {publicFigure.industries && publicFigure.industries.length > 0 ? (

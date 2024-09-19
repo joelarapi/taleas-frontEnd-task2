@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import classes from './AddBook.module.css'
 import Button from "../Button";
@@ -17,7 +17,7 @@ const AddBook = () => {
     e.preventDefault();
 
     const formattedPublishDate = new Date(publishDate).toISOString();
-    axios.post('http://localhost:5000/api/book',  {
+    api.post('/book',  {
         title,
         author,
         publish_date: formattedPublishDate,
@@ -39,7 +39,7 @@ const AddBook = () => {
   };
 
   return (
-    <form onSubmit={createBook} className={classes.container}>
+    <form  className={classes.container}>
 
     <div>
       <label>Title:</label>
@@ -67,7 +67,7 @@ const AddBook = () => {
       <input type="date" placeholder="Date of Release" value={publishDate} onChange={(e) => setPublishDate(e.target.value)}/>
     </div>
 
-    <Button className={classes.submitBttn}>Submit Book</Button>
+    <Button className={classes.submitBttn} onClick={createBook}>Submit Book</Button>
     </form>
   )
 }

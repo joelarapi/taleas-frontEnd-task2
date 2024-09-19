@@ -17,7 +17,7 @@ import AddReview from "./components/AddReview";
 import AccountSettings from "./components/AccountSettings";
 import UserReviews from "./components/UserReview";
 import Missing from "./components/Missing";
-import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRoute component
+import ProtectedRoute from "./components/ProtectedRoute"; 
 
 function App() {
   return (

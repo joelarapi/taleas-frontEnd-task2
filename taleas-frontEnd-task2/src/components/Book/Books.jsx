@@ -1,15 +1,17 @@
 import classes from "./Books.module.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button";
+import { useUser } from "../../context/UserContext";
 
 const Books = () => {
   const [books, setBooks] = useState([]);
   const navigate = useNavigate();
+  const {user}  =   useUser()
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/books")
+    api.get("/books")
       .then((response) => {
         setBooks(response.data);
       })
@@ -30,7 +32,9 @@ const Books = () => {
       <section className={classes.section}>
       <div className={classes.headerContainer}>
         <h1 className={classes.header}>Books List</h1>
-        <Button onClick={handleNavigate}> Add A Book</Button>
+        {user && user.isAdmin && ( 
+            <Button onClick={handleNavigate}> Add A Book</Button>
+          )}
       </div>
         <div className={classes.bookSection}>
           {books.map((book) => (

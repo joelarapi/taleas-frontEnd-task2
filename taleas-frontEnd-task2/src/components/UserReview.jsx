@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/api";
 import { useParams } from "react-router-dom";
 
 const UserReviews = () => {
@@ -7,7 +7,7 @@ const UserReviews = () => {
   const { userId } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/user/${userId}/reviews`)
+    api.get(`/user/${userId}/reviews`)
       .then(response => {
         setReviews(response.data);
       })

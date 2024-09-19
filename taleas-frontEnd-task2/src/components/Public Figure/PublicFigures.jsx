@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import classes from "./PublicFigures.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../Button";
+import { useUser } from "../../context/UserContext";
 
 const PublicFigures = () => {
   const [publicFigures, setPublicFigures] = useState([]);
@@ -11,13 +12,14 @@ const PublicFigures = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const { industryName } = useParams();
   const navigate = useNavigate();
+  const {user} = useUser()
 
   useEffect(() => {
     const adminStatus = localStorage.getItem("isAdmin") === "true";
     setIsAdmin(adminStatus);
 
-    axios
-      .get("http://localhost:5000/api/publicFigures")
+    api
+      .get("/publicFigures")
       .then((response) => {
         setPublicFigures(response.data);
       })
@@ -25,8 +27,8 @@ const PublicFigures = () => {
         console.log("Error fetching public figures", error);
       });
 
-    axios
-      .get("http://localhost:5000/api/industries")
+      api
+      .get("/industries")
       .then((response) => {
         setIndustries(response.data);
       })
@@ -106,7 +108,9 @@ const PublicFigures = () => {
                   ? `Public Figures in ${selectedIndustryName}`
                   : "All Public Figures"}
               </h1>
-              <Button onClick={handleAddPublicFigure}>Add Public Figure</Button>
+              {user && user.isAdmin && ( 
+            <Button onClick={handleAddPublicFigure}> Add A Book</Button>
+          )}
             </div>
 
             <div className={classes.cardDisplay}>

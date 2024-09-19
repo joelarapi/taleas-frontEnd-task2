@@ -1,14 +1,18 @@
-import { Navigate } from "react-router-dom";
-import { useUser } from "../context/UserContext";
+import { Navigate, Outlet } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 
 const ProtectedRoute = ({ element, adminOnly = false }) => {
   const { user } = useUser();
 
-  if (adminOnly) {
-    return user && user.isAdmin ? element : <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
 
-  return user ? element : <Navigate to="/login" />;
+  if (adminOnly && !user.isAdmin) {
+    return <Navigate to="*" replace />;
+  }
+
+  return element ? element : <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import classes from "./AddPublicFigure.module.css";
 
@@ -16,8 +16,8 @@ const AddPublicFigure = () => {
 
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/industries")
+    api
+      .get("/api/industries")
       .then((response) => {
         setIndustries(response.data); 
       })
@@ -27,8 +27,8 @@ const AddPublicFigure = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/books")
+    api
+      .get("/api/books")
       .then((response) => {
         setAllBooks(response.data);
       })
@@ -39,7 +39,7 @@ const AddPublicFigure = () => {
 
   const createPublicFigure = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/publicFigure',  {
+    api.post('/publicFigure',  {
         name,
         description,
         industries: selectedIndustries,

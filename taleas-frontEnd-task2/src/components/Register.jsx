@@ -1,5 +1,5 @@
 import  { useState } from 'react';
-import axios from 'axios';
+import api from '../api/api';
 import { useNavigate } from 'react-router-dom';
 import classes from './Register.module.css'
 
@@ -20,8 +20,8 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/user',
+      const response = await api.post(
+        '/user',
         { userName, email, password },
         {
           headers: {

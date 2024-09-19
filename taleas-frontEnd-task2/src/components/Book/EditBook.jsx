@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/api";
 import classes from './EditBook.module.css'
 
 const EditBook = () => {
@@ -17,8 +17,8 @@ const EditBook = () => {
   })
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/book/${id}`)
+    api
+      .get(`/book/${id}`)
       .then((response) => {
         const fetchedBook = response.data;
         if (fetchedBook.publish_date) {
@@ -36,8 +36,8 @@ const EditBook = () => {
 
     const formattedPublishDate = new Date(book.publish_date).toISOString();
     const updatedBook = { ...book, publish_date: formattedPublishDate };
-    axios
-    .put(`http://localhost:5000/api/book/${id}`, book)
+    api
+    .put(`/book/${id}`, book)
     .then((res) =>{
       console.log(res.data)
       navigate('/books')
