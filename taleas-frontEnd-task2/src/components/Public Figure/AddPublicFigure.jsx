@@ -6,7 +6,7 @@ import classes from "./AddPublicFigure.module.css";
 const AddPublicFigure = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageFile, setImageFile] = useState(null);
   const [industryInput, setIndustryInput] = useState("");
   const [industries, setIndustries] = useState([]);
   const [selectedIndustries, setSelectedIndustries] = useState([]);
@@ -14,12 +14,11 @@ const AddPublicFigure = () => {
   const [allBooks, setAllBooks] = useState([]);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     api
-      .get("/api/industries")
+      .get("/industries")
       .then((response) => {
-        setIndustries(response.data); 
+        setIndustries(response.data);
       })
       .catch((error) => {
         console.log("Error fetching industries", error);
@@ -28,7 +27,7 @@ const AddPublicFigure = () => {
 
   useEffect(() => {
     api
-      .get("/api/books")
+      .get("/books")
       .then((response) => {
         setAllBooks(response.data);
       })
@@ -37,20 +36,36 @@ const AddPublicFigure = () => {
       });
   }, []);
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageFile(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const createPublicFigure = (e) => {
     e.preventDefault();
-    api.post('/publicFigure',  {
-        name,
-        description,
-        industries: selectedIndustries,
-        recommendedBooks,
-        imageUrl
-      })
+    const dataToSend = {
+      name,
+      description,
+      industries: selectedIndustries,
+      recommendedBooks,
+      imageUrl: imageFile,
+    };
+
+    console.log(dataToSend);
+    api
+      .post("/publicFigure", dataToSend)
+
       .then((res) => {
         console.log(res);
         setName("");
         setDescription("");
-        setImageUrl("");
+        setImageFile(null);
         setIndustries([""]);
         setRecommendedBooks([]);
         navigate("/publicFigures");
@@ -60,18 +75,15 @@ const AddPublicFigure = () => {
       });
   };
 
-
-  const toggleIndustry = (industry) => {
-    if (selectedIndustries.includes(industry)) {
-      // Remove the industry if already selected
-      setSelectedIndustries(selectedIndustries.filter(i => i !== industry));
+  const toggleIndustry = (industryId) => {
+    if (selectedIndustries.includes(industryId)) {
+      setSelectedIndustries(
+        selectedIndustries.filter((id) => id !== industryId)
+      );
     } else {
-      // Add the industry if not selected
-      setSelectedIndustries([...selectedIndustries, industry]);
+      setSelectedIndustries([...selectedIndustries, industryId]);
     }
   };
-
-
 
   const handleRemoveIndustry = (indexToRemove) => {
     setIndustries(industries.filter((_, index) => index !== indexToRemove));
@@ -109,41 +121,54 @@ const AddPublicFigure = () => {
       </div>
 
       <div>
-        <label>Image URL:</label>
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
+        <label htmlFor="file-upload">
+          Upload Public Figure Image:
+          <input
+            id="file-upload"
+            className={classes.fileInput}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
+        </label>
       </div>
 
       <div>
         <label>Industries this Public Figure is a part of:</label>
-        <div className={classes.industriesList}>
+        <ul className={classes.industriesList}>
           {industries.map((industry) => (
-            <span
+            <li
               key={industry._id}
-              className={`${classes.industryItem} ${selectedIndustries.includes(industry.name) ? classes.selected : ''}`}
-              onClick={() => toggleIndustry(industry.name)}
+              className={`${classes.industryItem} ${
+                selectedIndustries.includes(industry._id)
+                  ? classes.selected
+                  : ""
+              }`}
+              onClick={() => toggleIndustry(industry._id)}
             >
               {industry.name}
-            </span>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        <div className={classes.selectedIndustries}>
+        <div>
           <h4>Selected Industries:</h4>
-          <ul>
-            {selectedIndustries.map((industry, index) => (
-              <li key={index} onClick={() => toggleIndustry(industry)}>
-                {industry}
-              </li>
-            ))}
+          <ul className={classes.selectedIndustries}>
+            {selectedIndustries.map((industryId, index) => {
+              const selectedIndustry = industries.find(
+                (ind) => ind._id === industryId
+              );
+              return (
+                <li key={index} onClick={() => toggleIndustry(industryId)}>
+                  {selectedIndustry
+                    ? selectedIndustry.name
+                    : "Industry not found"}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
-
 
       <div>
         <label>Recommended Books by this Public Figure:</label>

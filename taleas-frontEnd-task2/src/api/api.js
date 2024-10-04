@@ -2,7 +2,8 @@ import axios from 'axios';
 
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', 
+  // baseURL: 'http://localhost:5000/api', 
+  baseURL:'https://eovl2ymmef.execute-api.eu-north-1.amazonaws.com/dev/api'
 });
 
 

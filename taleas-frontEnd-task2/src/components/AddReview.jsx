@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import StarRating from "./StarRating";
 import classes from "./AddReview.module.css";
+import {useUser} from '../context/UserContext'
 
 const AddReview = () => {
   const { id: bookId } = useParams();
@@ -10,7 +11,7 @@ const AddReview = () => {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
-
+  const {user} = useUser();
   useEffect(() => {
     api
       .get(`/book/${bookId}`)
@@ -27,7 +28,7 @@ const AddReview = () => {
     console.log('Rating:', rating);
     console.log('Content:', content);
     const token = localStorage.getItem('accessToken'); 
-    const userId = localStorage.getItem('userId');
+    const userId = user ? user.id : null;
     console.log('User ID:', userId);
     console.log('Token:', token);
 

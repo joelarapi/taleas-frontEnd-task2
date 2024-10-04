@@ -6,40 +6,83 @@ import Button from "../Button";
 
 const AddBook = () => {
 
-  const[title, setTitle] = useState("")
-  const[author, setAuthor] = useState("")
-  const[publishDate, setPublishDate] = useState("")
+  const [title, setTitle] = useState("")
+  const [author, setAuthor] = useState("")
+  const [publishDate, setPublishDate] = useState("")
   const [description, setDescription] = useState("")
-  const [imageUrl, setImageUrl] = useState("")
+  const [image, setImage] = useState(null);  
+  const [s3Key, setS3Key] = useState(null);
   const navigate = useNavigate()
 
-  const createBook = (e) => {
-    e.preventDefault();
 
-    const formattedPublishDate = new Date(publishDate).toISOString();
-    api.post('/book',  {
-        title,
-        author,
-        publish_date: formattedPublishDate,
-        description,
-        imageUrl
-      })
-      .then((res) => {
-        console.log(res);
-        setTitle("");
-        setAuthor("");
-        setImageUrl("");
-        setPublishDate("");
-        setDescription("")
-        navigate("/books");
-      })
-      .catch((err) => {
-        console.log("Error creating book", err);
+  const handleImageUpload = async (file) => {
+    const { name: fileName, type: fileType } = file;
+
+    try {
+      const response = await api.post("/book/presigned-url", { fileName, fileType });
+      console.log("Presigned URL response:", response.data);
+      const { uploadUrl, s3Key } = response.data;
+
+      const uploadRes = await fetch(uploadUrl, {
+        method: "PUT",
+        body: file,
+        headers: {
+          "Content-Type": fileType,
+        },
       });
+
+      if (!uploadRes.ok) {
+        console.error("Upload response:", await uploadRes.text());
+        throw new Error("Failed to upload image to S3");
+      }
+      setS3Key(s3Key);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
 
+ const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      console.log("File selected: ", file);
+      await handleImageUpload(file); 
+    }
+  };
+
+
+  const createBook = async (e) => {
+    e.preventDefault();
+    try {
+
+      const bookData = {
+        title: title,
+        author: author,
+        publish_date: new Date(publishDate).toISOString(),
+        description: description,
+        s3Key: s3Key
+    };
+
+      console.log("Book data being sent:", bookData);
+      const res = await api.post("/book", bookData);
+
+      setTitle("");
+      setAuthor("");
+      setPublishDate("");
+      setDescription("");
+      setImage(null);
+      setS3Key(null);
+
+      navigate("/books");
+    } catch (error) {
+      console.error("Error creating book:", error);
+    }
+  };
+
+
+
   return (
-    <form  className={classes.container}>
+    <form  className={classes.container} onSubmit={createBook}>
 
     <div>
       <label>Title:</label>
@@ -58,18 +101,23 @@ const AddBook = () => {
     </div>
 
     <div>
-      <label>Image:</label>
-      <input type="text" placeholder="Image URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
-    </div>
+        <label>Image:</label>
+        <input 
+          type="file" 
+          name="image" 
+          onChange={handleFileChange} 
+          accept="image/*" 
+        />
+      </div>
 
     <div>
       <label>Publish Date:</label>
-      <input type="date" placeholder="Date of Release" value={publishDate} onChange={(e) => setPublishDate(e.target.value)}/>
+      <input type="date" accept=".jpeg, .jpg, .png" placeholder="Date of Release" value={publishDate} onChange={(e) => setPublishDate(e.target.value)}/>
     </div>
 
-    <Button className={classes.submitBttn} onClick={createBook}>Submit Book</Button>
+    <Button className={classes.submitBttn} type="submit">Submit Book</Button>
     </form>
-  )
+  ) 
 }
 
-export default AddBook
+export default AddBook;

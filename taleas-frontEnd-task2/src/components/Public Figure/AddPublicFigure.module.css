@@ -92,7 +92,31 @@ margin-bottom: 20px;
   margin-top: 10px;
 }
 
+.industriesList li:hover{
+  color: green;
+  cursor: pointer;
+}
+
+.selectedIndustries li:hover{
+  color: red;
+  cursor: pointer;
+}
+
 .bookList{
   display: flex;
   justify-content: space-around;
+}
+
+.imageUpload input[type = "file"]{
+display: none;
+  }
+
+  .imageUpload label {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

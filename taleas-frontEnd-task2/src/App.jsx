@@ -24,7 +24,6 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/book/:bookId" element={<BookDetails />} />
         <Route path="/login" element={<Login />} />
@@ -35,7 +34,6 @@ function App() {
         <Route path="/publicFigure/:id" element={<PublicFigureDetails />} />
         <Route path="/about" element={<About />} />
 
-        {/* Protected routes */}
         <Route path="/book/add" element={<ProtectedRoute element={<AddBook />} adminOnly={true} />} />
         <Route path="/book/edit/:id" element={<ProtectedRoute element={<EditBook />} adminOnly={true} />} />
         <Route path="/publicFigure/add" element={<ProtectedRoute element={<AddPublicFigure />} adminOnly={true} />} />
@@ -43,7 +41,6 @@ function App() {
         <Route path="/profile/user/:userId" element={<ProtectedRoute element={<MyProfile />} />} />
         <Route path="/addReview/:id" element={<ProtectedRoute element={<AddReview />} />} />
 
-        {/* Catch-all route for missing pages */}
         <Route path="*" element={<Missing />} />
       </Routes>
     </>

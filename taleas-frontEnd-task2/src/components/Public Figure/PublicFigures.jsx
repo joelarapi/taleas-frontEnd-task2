@@ -8,7 +8,6 @@ import { useUser } from "../../context/UserContext";
 const PublicFigures = () => {
   const [publicFigures, setPublicFigures] = useState([]);
   const [industries, setIndustries] = useState([]);
-  // const [selectedIndustry, setSelectedIndustry] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const { industryName } = useParams();
   const navigate = useNavigate();
@@ -109,7 +108,7 @@ const PublicFigures = () => {
                   : "All Public Figures"}
               </h1>
               {user && user.isAdmin && ( 
-            <Button onClick={handleAddPublicFigure}> Add A Book</Button>
+            <Button onClick={handleAddPublicFigure}> Add A Public Figure</Button>
           )}
             </div>
 

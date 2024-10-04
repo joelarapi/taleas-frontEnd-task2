@@ -37,19 +37,29 @@ const Books = () => {
           )}
       </div>
         <div className={classes.bookSection}>
-          {books.map((book) => (
-            <div
-              key={book._id}
-              className={classes.bookCard}
-              onClick={() => navigate(`/book/${book._id}`)}
-            >
-              <img src={book.imageUrl} alt={book.title} />
-              <div className={classes.cardInfo}>
-                <h3>{book.title}</h3>
-                <p className={classes.description}>{book.author}</p>
+        {books.map((book) => {
+          const imageUrl = book.imageUrl
+              ? book.imageUrl 
+              : 'placeholderImage.png';
+              console.log('Book Image URL:', imageUrl);
+            return (
+              <div
+                key={book._id}
+                className={classes.bookCard}
+                onClick={() => navigate(`/book/${book._id}`)}
+              >
+                <img
+                  src={imageUrl}
+                  alt={book.title}
+                  className={classes.bookImage}
+                />
+                <div className={classes.cardInfo}>
+                  <h3>{book.title}</h3>
+                  <p className={classes.description}>{book.author}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </div>

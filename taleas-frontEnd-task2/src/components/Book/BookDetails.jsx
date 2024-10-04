@@ -51,6 +51,8 @@ const BookDetails = () => {
     navigate(`/addReview/${bookId}`);
   };
 
+
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -59,13 +61,21 @@ const BookDetails = () => {
     return <p>Book not found.</p>;
   }
 
+  const imageUrl = book.imageUrl
+  ? `http://localhost:5000/uploads/${book.imageUrl.split('/').pop()}`
+  : 'http://localhost:5000/uploads/placeholderImage.png';
+
   console.log("Book reviews:", book.reviews);
 
   return (
     <div className={classes.container}>
       <div className={classes.bookContainer}>
         <div className={classes.bookAndRating}>
-          <img src={book.imageUrl} alt={book.title} />
+          <img
+            src={imageUrl}
+            alt={book.title}
+            className={classes.bookImage}
+          />
           <p>
             Book Rating {book.averageRating}{" "}
             <span className={classes.star}>★</span>
