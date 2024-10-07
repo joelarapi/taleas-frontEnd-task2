@@ -18,6 +18,11 @@ import AccountSettings from "./components/AccountSettings";
 import UserReviews from "./components/UserReview";
 import Missing from "./components/Missing";
 import ProtectedRoute from "./components/ProtectedRoute"; 
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports'; 
+import { withAuthenticator } from '@aws-amplify/ui-react';
+
+Amplify.configure(awsconfig);
 
 function App() {
   return (

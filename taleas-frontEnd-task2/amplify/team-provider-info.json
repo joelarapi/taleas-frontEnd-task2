@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-taleasfrontendtask-dev-16a6e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::944511268761:role/amplify-taleasfrontendtask-dev-16a6e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::944511268761:role/amplify-taleasfrontendtask-dev-16a6e-authRole",
+      "Region": "eu-north-1",
+      "DeploymentBucketName": "amplify-taleasfrontendtask-dev-16a6e-deployment",
+      "UnauthRoleName": "amplify-taleasfrontendtask-dev-16a6e-unauthRole",
+      "StackName": "amplify-taleasfrontendtask-dev-16a6e",
+      "StackId": "arn:aws:cloudformation:eu-north-1:944511268761:stack/amplify-taleasfrontendtask-dev-16a6e/03fbf1c0-8483-11ef-b478-0669ed603e3f",
+      "AmplifyAppId": "d216bm1n7rtugr"
+    }
+  }
+}
